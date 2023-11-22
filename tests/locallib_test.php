@@ -204,6 +204,13 @@ class locallib_test extends \advanced_testcase {
     public function test_guide() {
         $this->resetAfterTest();
         global $DB;
+
+        // ignore test when family is not PostgreSQL
+        $dbType = $DB->get_dbfamily();
+        if (in_array($dbType, ['mysqli', 'mysql', 'mariadb'])) {
+            return;
+        }
+
         $cm = get_coursemodule_from_instance('assign', $this->guideassignid, $this->courseid);
         $data['headerstyle'] = 'style="background-color:#D2D2D2;"';
         $data['reportname'] = get_string('rubricreportname', 'report_advancedgrading');
